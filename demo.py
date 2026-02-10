@@ -3,6 +3,7 @@ import json
 import yaml
 from detector.yolo_detector import YoloDetector
 from logic.object_state import TrackedObject
+from tracker.person_tracker import PersonTracker
 from utils.draw import draw_tracked_object
 
 cap = cv2.VideoCapture("input/demo.mp4")
@@ -25,6 +26,10 @@ detector = YoloDetector(
 )
 tracked_object = TrackedObject(obj_id=1)
 
+person_tracker = PersonTracker(
+    iou_threshold=cfg["person_tracker"]["iou_threshold"]
+)
+
 events = []
 frame_idx = 0
 
@@ -46,7 +51,7 @@ while cap.isOpened():
             "object_id": tracked_object.id,
             "from": prev_state.name,
             "to": tracked_object.state.name,
-            "near_person": None   # 後で拡張
+            "near_person": near_person
         })
 
     # 描画（超簡易）
