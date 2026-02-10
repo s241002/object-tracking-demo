@@ -1,10 +1,3 @@
-
-print("Model path:", cfg["model_path"])
-print("Device:", cfg["device"])
-print("Conf:", cfg["yolo_conf"])
-print("IoU:", cfg["yolo_iou"])
-print("Interval:", cfg["yolo_interval"])
-
 import cv2
 import json
 import yaml
@@ -13,6 +6,12 @@ from logic.object_state import TrackedObject
 from tracker.person_tracker import PersonTracker
 from tracker.tracked_object import TrackedObject, ObjectState
 from utils.draw import draw_tracked_object
+
+print("Model path:", cfg["model_path"])
+print("Device:", cfg["device"])
+print("Conf:", cfg["yolo_conf"])
+print("IoU:", cfg["yolo_iou"])
+print("Interval:", cfg["yolo_interval"])
 
 cap = cv2.VideoCapture("input/demo.mp4")
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -28,17 +27,13 @@ out = cv2.VideoWriter(
 with open("configs/config.yaml", "r", encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
 
-detector = YoloDetector(
-    model_path="models/yolo_custom.pt",
-    device="cpu"
-)
-tracked_object = TrackedObject(obj_id=1)
+detector = YoloDetector(cfg)
+
+tracked_object = TrackedObject(obj_id=1, cfg=cfg)
 
 person_tracker = PersonTracker(
     iou_threshold=cfg["person_tracker"]["iou_threshold"]
 )
-
-near_person = tracked_object.nearest_person(person_tracks)
 
 events = []
 frame_idx = 0
@@ -56,6 +51,7 @@ while cap.isOpened():
     tracked_object.update(obj_bbox, persons)
 
     if tracked_object.state != prev_state:
+        near_person = tracked_object.nearest_person(person_tracks)
         events.append({
             "frame": frame_idx,
             "time_sec": round(frame_idx / fps, 2),
