@@ -18,7 +18,7 @@ out = cv2.VideoWriter(
     fps, (w, h)
 )
 
-with open("config.yaml", "r") as f:
+with open("configs/config.yaml", "r", encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
 
 detector = YoloDetector(
