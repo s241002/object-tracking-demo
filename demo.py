@@ -43,6 +43,7 @@ while cap.isOpened():
 
     persons, objects = detector.detect(frame)
     obj_bbox = objects[0] if objects else None
+    person_tracks = person_tracker.update(persons)
 
     prev_state = tracked_object.state
     tracked_object.update(obj_bbox, persons)
