@@ -3,6 +3,7 @@ import json
 import yaml
 from detector.yolo_detector import YoloDetector
 from logic.object_state import TrackedObject
+from utils.draw import draw_tracked_object
 
 cap = cv2.VideoCapture("input/demo.mp4")
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -55,7 +56,7 @@ while cap.isOpened():
             cv2.FONT_HERSHEY_SIMPLEX,
             0.6, (0,255,0), 2
         )
-
+    frame = draw_tracked_object(frame, tracked_object, cfg)
     out.write(frame)
     frame_idx += 1
 
