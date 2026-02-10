@@ -1,5 +1,6 @@
 import cv2
 import json
+import yaml
 from detector.yolo_detector import YoloDetector
 from logic.object_state import TrackedObject
 
@@ -13,6 +14,9 @@ out = cv2.VideoWriter(
     cv2.VideoWriter_fourcc(*"mp4v"),
     fps, (w, h)
 )
+
+with open("config.yaml", "r") as f:
+    cfg = yaml.safe_load(f)
 
 detector = YoloDetector(
     model_path="models/yolo_custom.pt",
