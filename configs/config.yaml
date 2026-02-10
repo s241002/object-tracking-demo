@@ -1,0 +1,58 @@
+# =========================
+# General
+# =========================
+mode: video              # video / webcam（今は video 固定）
+input_video: input/demo.mp4
+output_dir: output/
+
+# =========================
+# YOLO Detector
+# =========================
+model_path: models/yolo_custom.pt   # デフォルトは yolov8n.pt でもOK
+device: cpu                         # cuda があれば "cuda"
+
+yolo_conf: 0.30
+yolo_iou: 0.70
+yolo_interval: 1        # 発表用は毎フレーム推論（>1で間引き）
+
+# =========================
+# Class Settings
+# ※ 自前学習モデルの class_id に合わせて変更
+# =========================
+person_class_id: 0
+object_class_ids: [1]   # 例: bag だけ追う場合
+
+# =========================
+# Object State Transition
+# =========================
+# 「動いた」判定
+move_distance_px: 30        # bbox中心の移動量
+move_confirm_frames: 3     # 連続フレーム数
+
+# 「遮蔽」判定
+occlusion_iou: 0.20         # 人bboxとのIoU
+
+# 「消失」判定
+missing_frames: 30          # 約1秒（fps=30想定）
+removed_frames: 60          # 約2秒
+
+# =========================
+# Visualization
+# =========================
+draw_bbox: true
+draw_state_text: true
+
+state_colors:
+  PRESENT:  [0, 255, 0]
+  MOVED:    [0, 255, 255]
+  OCCLUDED: [255, 165, 0]
+  MISSING:  [0, 0, 255]
+  REMOVED:  [128, 0, 128]
+
+# =========================
+# Logging
+# =========================
+save_events: true
+events_file: events.json
+save_annotated_video: true
+annotated_video_name: annotated.mp4
