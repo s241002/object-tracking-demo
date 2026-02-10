@@ -48,7 +48,7 @@ while cap.isOpened():
     person_tracks = person_tracker.update(persons)
 
     prev_state = tracked_object.state
-    tracked_object.update(obj_bbox, persons)
+    tracked_object.update(obj_bbox, person_tracks)
 
     if tracked_object.state != prev_state:
         near_person = tracked_object.nearest_person(person_tracks)
