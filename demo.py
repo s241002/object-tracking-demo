@@ -1,3 +1,10 @@
+
+print("Model path:", cfg["model_path"])
+print("Device:", cfg["device"])
+print("Conf:", cfg["yolo_conf"])
+print("IoU:", cfg["yolo_iou"])
+print("Interval:", cfg["yolo_interval"])
+
 import cv2
 import json
 import yaml
