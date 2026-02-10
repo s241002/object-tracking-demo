@@ -1,16 +1,18 @@
 from ultralytics import YOLO
 
 class YoloDetector:
-    def __init__(self, model_path="yolov8n.pt", device="cpu"):
-        self.model = YOLO(model_path)
-        self.device = device
+    def __init__(self, cfg):
+        self.cfg = cfg
+        self.model = YOLO(cfg["model_path"])
+        self.person_cls = cfg["person_class_id"]
+        self.object_cls = set(cfg["object_class_ids"])
 
     def detect(self, frame):
         results = self.model(
             frame,
-            conf=0.3,
-            iou=0.7,
-            device=self.device,
+            conf=self.cfg["yolo_conf"],
+            iou=self.cfg["yolo_iou"],
+            device=self.cfg["device"],
             verbose=False
         )
 
@@ -22,10 +24,9 @@ class YoloDetector:
                 cls = int(box.cls[0])
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-                # クラスIDは学習データに合わせて調整
-                if cls == 0:        # person
+                if cls == self.person_cls:
                     persons.append((x1, y1, x2, y2))
-                elif cls == 1:      # bag（例）
+                elif cls in self.object_cls:
                     objects.append((x1, y1, x2, y2))
 
         return persons, objects
