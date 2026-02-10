@@ -8,7 +8,7 @@ output_dir: output/
 # =========================
 # YOLO Detector
 # =========================
-model_path: models/yolo_custom.pt   # デフォルトは yolov8n.pt でもOK
+model_path: yolov8n.pt    # yolov8n.pt or models/yolo_custom.pt
 device: cpu                         # cuda があれば "cuda"
 
 yolo_conf: 0.30
