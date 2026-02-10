@@ -4,6 +4,7 @@ import yaml
 from detector.yolo_detector import YoloDetector
 from logic.object_state import TrackedObject
 from tracker.person_tracker import PersonTracker
+from tracker.tracked_object import TrackedObject, ObjectState
 from utils.draw import draw_tracked_object
 
 cap = cv2.VideoCapture("input/demo.mp4")
