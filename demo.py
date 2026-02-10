@@ -14,7 +14,10 @@ out = cv2.VideoWriter(
     fps, (w, h)
 )
 
-detector = YoloDetector()
+detector = YoloDetector(
+    model_path="models/yolo_custom.pt",
+    device="cpu"
+)
 tracked_object = TrackedObject(obj_id=1)
 
 events = []
