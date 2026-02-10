@@ -30,6 +30,8 @@ person_tracker = PersonTracker(
     iou_threshold=cfg["person_tracker"]["iou_threshold"]
 )
 
+near_person = tracked_object.nearest_person(person_tracks)
+
 events = []
 frame_idx = 0
 
