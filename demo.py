@@ -42,7 +42,11 @@ while cap.isOpened():
     if tracked_object.state != prev_state:
         events.append({
             "frame": frame_idx,
-            "state": tracked_object.state.name
+            "time_sec": round(frame_idx / fps, 2),
+            "object_id": tracked_object.id,
+            "from": prev_state.name,
+            "to": tracked_object.state.name,
+            "near_person": None   # 後で拡張
         })
 
     # 描画（超簡易）
